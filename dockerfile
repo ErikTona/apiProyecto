@@ -11,6 +11,11 @@ WORKDIR /var/www/html
 
 COPY . .
 
+# Crear el directorio bootstrap/cache y establecer permisos
+RUN mkdir -p /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 RUN composer install --no-dev --optimize-autoloader
 
 RUN php artisan storage:link
@@ -18,9 +23,7 @@ RUN php artisan storage:link
 # Cachea configuraciones si estás seguro de que funcionan correctamente
 # RUN php artisan config:cache && php artisan route:cache
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
 CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
 
 EXPOSE 8000
+
