@@ -134,4 +134,38 @@ class StudentController extends Controller
 
         return response()->json($data, 200);
     }
+
+
+    public function login(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['message' => 'Error al validar los datos de inicio de sesión'], 422);
+    }
+
+    
+    $student = Student::where('email', $request->email)->first();
+
+    if (!$student) {
+        return response()->json(['message' => 'Estudiante no encontrado'], 404);
+    }
+
+    
+    if (!password_verify($request->password, $student->password)) {
+        return response()->json(['message' => 'Contraseña incorrecta'], 401);
+    }
+
+    
+    return response()->json([
+        'message' => 'Inicio de sesión exitoso',
+        'student' => $student
+    ], 200);
+}
+
+
+
 }
