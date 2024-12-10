@@ -25,6 +25,11 @@ Route::put('/students/{id}', [StudentController :: class, 'update']);
 
 Route::delete('/students/{id}', [StudentController :: class, 'destroy']);
 
+Route::post('/students/login', [StudentController::class, 'login']);
+
+
+Route::post('/students',[StudentController :: class, 'store'] );
+
 
 //Rutas Profesores
 
@@ -74,6 +79,11 @@ Route::put('/inscriptions/{id}', [InscriptionsController :: class, 'update']);
 
 Route::delete('/inscriptions/{id}', [InscriptionsController :: class, 'destroy']);
 
+Route::get('/inscriptions/profesors/{id}', [InscriptionsController :: class, 'getInscriptionsByStudent']);
+
+Route::get('/inscriptions/courses/{id}', [InscriptionsController :: class, 'getInscriptionsByCourse']);
+
+
 //rutas para el login
 
 Route::get('/usuarios', [UsuariosController :: class, 'index']);
@@ -89,6 +99,10 @@ Route::put('/usuarios/{id}', [UsuariosController :: class, 'update']);
 
 
 Route::delete('/usuarios/{id}', [UsuariosController :: class, 'destroy']);
+
+
+Route::post('/usuarios/login', [UsuariosController::class, 'login']);
+
 
 //Rutas para los cursos
 
@@ -107,3 +121,7 @@ Route::put('/courses/{id}', [CoursesController :: class, 'update']);
 Route::delete('/courses/{id}', [CoursesController :: class, 'destroy']);
 
 
+Route::get('/courses/profesor/{id}', [CoursesController :: class, 'getCoursesByProfessor']);
+
+
+Route::get('/courses/category/{id}', [CoursesController :: class, 'getCoursesByCategory']);
